@@ -38,7 +38,7 @@
   ],
 
   "custom/rofi": {
-		"format": "<span color='#fbf1c7' >󰮯</span>",
+		"format": "󰮯",
 		"on-click": "rofi -show drun",
     "on-click-right": "sh ~/.config/waybar/scripts/power-menu.sh",
     "escape" : true,
@@ -53,14 +53,14 @@
     "warp-on-scroll": false,
     "format": "{icon}",
     "format-icons": {
-      "1": "<span color='#cc241d' >󰊠</span>",
-      "2": "<span color='#98971a' >󰊠</span>",
-      "3": "<span color='#d79921' >󰊠</span>",
-      "4": "<span color='#458588' >󰊠</span>",
-      "5": "<span color='#b16286' >󰊠</span>",
-      "6": "<span color='#689d6a' >󰊠</span>",
-      "7": "<span color='#fe8019' >󰊠</span>",
-      "default": "<span color='#cc241d'>󰊠</span>",
+      "1": "󰊠",
+      "2": "󰊠",
+      "3": "󰊠",
+      "4": "󰊠",
+      "5": "󰊠",
+      "6": "󰊠",
+      "7": "󰊠",
+      "default": "󰊠",
     },
     "persistent-workspaces": {
         "*": 5
@@ -71,7 +71,7 @@
     "format": "{class}",
     "max-length": 20,
     "rewrite": {
-      "": "<span foreground= '#458588'></span> hyprland",
+      "": " hyprland",
       "~": " terminal",
       "com.mitchellh.ghostty": ">> ghostty",
       "zen-beta": ">> zen"
@@ -85,10 +85,10 @@
 
   "pulseaudio": {
     // "scroll-step": 1, // %, can be a float
-    "format": "<span color='#fbf1c7' >  </span>{volume}%",
-    "format-muted": "<span color='#fbf1c7' >  </span>{volume}%",
-    "format-bluetooth": "<span color='#fbf1c7' > 󰂰 </span>{volume}%",
-    "format-bluetooth-muted": "<span color='#fbf1c7' > 󰂲 </span>{volume}%",
+    "format": "  {volume}%",
+    "format-muted": "  {volume}%",
+    "format-bluetooth": " 󰂰 {volume}%",
+    "format-bluetooth-muted": " 󰂲 {volume}%",
     "format-source": "{volume}% ",
     "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
     "tooltip": false,
@@ -107,25 +107,25 @@
       "critical": 20
     },
     "format-icons": [" "," "," "," "," "],
-    "format": "<span color='#8ec07c' > {icon}</span>{capacity}%",
-    "format-critical": "<span color='#cc241d' > {icon}</span>{capacity}%",
-    "format-warning": "<span color='#d8a657' > {icon}</span>{capacity}%",
-    "format-full": "<span color='#8ec07c' > {icon}</span>{capacity}%",
-    "format-charging": "<span color='#8ec07c' > 󰂅 </span>{capacity}%",
-    "format-charging-warning": "<span color='#d8a657' > 󰢝 </span>{capacity}%",
-    "format-charging-critical": "<span color='#cc241d' > 󰢜 </span>{capacity}%",
-    "format-plugged": "<span color='#8ec07c' > 󰂅 </span>{capacity}%",
-    "format-alt": "<span color='#8ec07c' > 󱧥 </span>{time}",
+    "format": " {icon}{capacity}%",
+    "format-critical": " {icon}{capacity}%",
+    "format-warning": " {icon}{capacity}%",
+    "format-full": " {icon}{capacity}%",
+    "format-charging": " 󰂅 {capacity}%",
+    "format-charging-warning": " 󰢝 {capacity}%",
+    "format-charging-critical": " 󰢜 {capacity}%",
+    "format-plugged": " 󰂅 {capacity}%",
+    "format-alt": " 󱧥 {time}",
     "tooltip": false
   },
 
   "clock#date": {
-    "format": "<span color='#8ec07c' >󰃭 </span>{:%a %d %b}",
+    "format": "󰃭 {:%a %d %b}",
     "tooltip": false,
   },
 
   "clock#time": {
-    "format": "<span color='#cc241d' >󱑂 </span>{:%I:%M %p}",
+    "format": "󱑂 {:%I:%M %p}",
     "tooltip": false,
     // "tooltip-format": "Standard Time: {:%I:%M %p}",
     "min-length": 8,
@@ -155,7 +155,7 @@
   },
 
   "mpris": {
-    "format": "<span color='#cc241d'> 󰎇  </span>  {artist} - {title}  ",
+    "format": " 󰎇    {artist} - {title}  ",
     "max-length": 40,
   },
 
@@ -171,10 +171,10 @@
   },
 
   "bluetooth": {
-    "format": "<span color='#458588'>󰂰 </span>",
-    "format-disabled": "<span color='#458588'>󰂲 </span>",
-    "format-connected": "<span color='#458588'>󰂱 </span>",
-    "format-connected-battery": "<span color='#458588'>󰂱 </span>",
+    "format": "󰂰 ",
+    "format-disabled": "󰂲 ",
+    "format-connected": "󰂱 ",
+    "format-connected-battery": "󰂱 ",
 
     "tooltip-format": 
       "{num_connections} connected",

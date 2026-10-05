@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 
-config="$HOME/.config/wofi/powermenu.rasi"
-
 actions=$(echo -e "  Lock\n  Shutdown\n  Reboot\n$(printf '\u200A')  Suspend\n  Hibernate\n  Logout")
 
 # Display logout menu
-selected_option=$(echo -e "$actions" | wofi -dmenu -i -config "${config}" || pkill -x rofi)
+selected_option=$(echo -e "$actions" | wofi --dmenu --insensitive --hide-search --lines 6)
 
 # Perform actions based on the selected option
 case "$selected_option" in
