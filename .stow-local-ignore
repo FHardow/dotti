@@ -1,0 +1,9 @@
+# Replaces stow's default ignore list, so the defaults are repeated here.
+\.git
+\.gitignore
+\.gitmodules
+^/README.*
+^/LICENSE.*
+^/COPYING
+^/Makefile
+^/\.stow-local-ignore
