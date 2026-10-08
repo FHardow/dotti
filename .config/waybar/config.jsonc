@@ -60,7 +60,7 @@
       "5": "󰊠",
       "6": "󰊠",
       "7": "󰊠",
-      "default": "󰊠",
+      "default": "󰊠"
     },
     "persistent-workspaces": {
         "*": 5
@@ -85,10 +85,10 @@
 
   "pulseaudio": {
     // "scroll-step": 1, // %, can be a float
-    "format": "  {volume}%",
-    "format-muted": "  {volume}%",
-    "format-bluetooth": " 󰂰 {volume}%",
-    "format-bluetooth-muted": " 󰂲 {volume}%",
+    "format": " {volume}%",
+    "format-muted": " {volume}%",
+    "format-bluetooth": "󰂰 {volume}%",
+    "format-bluetooth-muted": "󰂲 {volume}%",
     "format-source": "{volume}% ",
     "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
     "tooltip": false,
@@ -106,30 +106,28 @@
       "warning": 30,
       "critical": 20
     },
-    "format-icons": [" "," "," "," "," "],
-    "format": " {icon}{capacity}%",
-    "format-critical": " {icon}{capacity}%",
-    "format-warning": " {icon}{capacity}%",
-    "format-full": " {icon}{capacity}%",
-    "format-charging": " 󰂅 {capacity}%",
-    "format-charging-warning": " 󰢝 {capacity}%",
-    "format-charging-critical": " 󰢜 {capacity}%",
-    "format-plugged": " 󰂅 {capacity}%",
-    "format-alt": " 󱧥 {time}",
+    "format-icons": ["","","","",""],
+    "format": "{icon} {capacity}%",
+    "format-critical": "{icon} {capacity}%",
+    "format-warning": "{icon} {capacity}%",
+    "format-full": "{icon} {capacity}%",
+    "format-charging": "󰂅 {capacity}%",
+    "format-charging-warning": "󰢝 {capacity}%",
+    "format-charging-critical": "󰢜 {capacity}%",
+    "format-plugged": "󰂅 {capacity}%",
+    "format-alt": "󱧥 {time}",
     "tooltip": false
   },
 
   "clock#date": {
     "format": "󰃭 {:%a %d %b}",
-    "tooltip": false,
+    "tooltip": false
   },
 
   "clock#time": {
     "format": "󱑂 {:%I:%M %p}",
     "tooltip": false,
-    // "tooltip-format": "Standard Time: {:%I:%M %p}",
-    "min-length": 8,
-    "max-length": 12
+    // "tooltip-format": "Standard Time: {:%I:%M %p}"
   },
 
   "custom/backlight": {
@@ -139,24 +137,22 @@
     "tooltip": true,
     "on-scroll-up": "~/.config/waybar/scripts/brightness-control.sh -o i",
     "on-scroll-down": "~/.config/waybar/scripts/brightness-control.sh -o d",
-    "interval": 1,
-    "min-length": 6,
-    "max-length": 6
+    "interval": 1
   },
 
   "custom/paddc": {
     "format": " ",
-    "tooltip": false,
+    "tooltip": false
   },
 
   "hyprland/language": {
     "format": "{}",
-    "format-en": "US",
+    "format-en": "US"
   },
 
   "mpris": {
-    "format": " 󰎇    {artist} - {title}  ",
-    "max-length": 40,
+    "format": "󰎇 {artist} - {title}",
+    "max-length": 40
   },
 
   "custom/wifi": {
@@ -165,16 +161,14 @@
     "format": "{}",
     "tooltip": true,
     "on-click": "~/.config/waybar/scripts/wifi-menu.sh",
-    "interval": 1,
-    "min-length": 1,
-    "max-length": 12
+    "interval": 1
   },
 
   "bluetooth": {
-    "format": "󰂰 ",
-    "format-disabled": "󰂲 ",
-    "format-connected": "󰂱 ",
-    "format-connected-battery": "󰂱 ",
+    "format": "󰂰",
+    "format-disabled": "󰂲",
+    "format-connected": "󰂱",
+    "format-connected-battery": "󰂱",
 
     "tooltip-format": 
       "{num_connections} connected",
@@ -188,9 +182,7 @@
       "{device_alias}: {device_battery_percentage}%",
 
     "on-click": "~/.config/waybar/scripts/bluetooth-menu.sh",
-    "interval": 1,
-    "min-length": 1,
-    "max-length": 10
+    "interval": 1
   },
 
   "custom/notification": {
@@ -198,14 +190,14 @@
     "rotate": 0,
     "format": "{icon}",
     "format-icons": {
-      "notification": "󰅸 ",
-      "none": "󰂜 ",
-      "dnd-notification": "󰅸 ",
-      "dnd-none": "󱏨 ",
-      "inhibited-notification": "󰅸 ",
-      "inhibited-none": "󰂜 ",
-      "dnd-inhibited-notification": "󰅸 ",
-      "dnd-inhibited-none": "󱏨 "
+      "notification": "󰅸",
+      "none": "󰂜",
+      "dnd-notification": "󰅸",
+      "dnd-none": "󱏨",
+      "inhibited-notification": "󰅸",
+      "inhibited-none": "󰂜",
+      "dnd-inhibited-notification": "󰅸",
+      "dnd-inhibited-none": "󱏨"
     },
     "return-type": "json",
     "exec-if": "which swaync-client",
