@@ -46,8 +46,9 @@ tooltip label {
 #workspaces,
 #window,
 #tray,
-#cpu,
-#temperature,
+#custom-cpu,
+#memory,
+#custom-disk,
 #custom-gpu,
 #pulseaudio,
 #custom-backlight,
@@ -68,8 +69,8 @@ tooltip label {
 }
 
 #custom-rofi:hover,
-#cpu:hover,
-#temperature:hover,
+#custom-cpu:hover,
+#memory:hover,
 #custom-gpu:hover,
 #pulseaudio:hover,
 #custom-backlight:hover,
@@ -176,23 +177,33 @@ window#waybar.empty #window {
   background: alpha(@red, 0.18);
 }
 
-#cpu,
-#temperature {
+#custom-cpu {
   color: @blue;
+}
+
+#memory {
+  color: @purple;
+}
+
+#custom-disk {
+  color: @yellow;
 }
 
 #custom-gpu {
   color: @green;
 }
 
-#cpu.warning,
+#custom-cpu.warning,
+#memory.warning,
+#custom-disk.warning,
 #custom-gpu.warning {
   color: @orange;
   background: alpha(@orange, 0.12);
 }
 
-#cpu.critical,
-#temperature.critical,
+#custom-cpu.critical,
+#memory.critical,
+#custom-disk.critical,
 #custom-gpu.critical {
   color: @red;
   background: alpha(@red, 0.18);

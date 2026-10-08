@@ -27,6 +27,10 @@ nvidia-smi -l "$interval" --format=csv,noheader,nounits \
     tooltip+="\nClock:  ${clock} MHz"
     tooltip+="\nFan:    ${fan}%"
 
-    printf '{"text": "%s%% %s°", "tooltip": "%s", "class": "%s", "percentage": %s}\n' \
-      "$util" "$temp" "$tooltip" "$class" "$util"
+    tenths=$((mem_used * 10 / 1024))
+    printf -v vram '%d.%dG' $((tenths / 10)) $((tenths % 10))
+
+    text="󰢮 ${util}%   ${temp}°  󰍛 ${vram}"
+    printf '{"text": "%s", "tooltip": "%s", "class": "%s", "percentage": %s}\n' \
+      "$text" "$tooltip" "$class" "$util"
   done

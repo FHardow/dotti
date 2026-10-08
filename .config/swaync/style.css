@@ -30,7 +30,7 @@
 .floating-notifications.background .notification-background .notification .notification-content {
 }
 .notification{
-    background: alpha(@bg, 0.5);
+    background: @overlay;
     border: 1px solid @border;
 
 }
@@ -169,7 +169,7 @@
 }
 
 .control-center {
-    background: @panel;
+    background: @overlay;
     color: @text;
     border-radius: 16px;
     border: 1px solid @border;

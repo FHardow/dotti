@@ -1,8 +1,9 @@
 // Desktop: no battery, backlight or wifi.
 {
   "modules-left": [
-    "cpu",
-    "temperature",
+    "custom/cpu",
+    "memory",
+    "custom/disk",
     "custom/gpu",
     "custom/paddc",
     "hyprland/window",
@@ -12,7 +13,6 @@
 
   "modules-right": [
     "pulseaudio",
-    "hyprland/language",
     "bluetooth",
     "custom/notification",
     "clock#date",

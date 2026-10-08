@@ -1,7 +1,9 @@
 // Laptop / fallback: battery, backlight and wifi.
 {
   "modules-left": [
-    "cpu",
+    "custom/cpu",
+    "memory",
+    "custom/disk",
     "custom/paddc",
     "hyprland/window",
     "custom/paddc",
@@ -11,7 +13,6 @@
   "modules-right": [
     "pulseaudio",
     "custom/backlight",
-    "hyprland/language",
     "bluetooth",
     "battery",
     "custom/notification",

@@ -21,6 +21,8 @@ install: ## Symlink dotfiles into ~
 	$(STOW) $(PACKAGE)
 	-pkill -x waybar
 	setsid -f waybar >/dev/null 2>&1
+	-pkill -x hyprpaper
+	setsid -f hyprpaper >/dev/null 2>&1
 
 restow: ## Re-link (prune stale links, add new files)
 	$(STOW) -R $(PACKAGE)

@@ -3,6 +3,7 @@
   "position": "top",
   "height": 35,
   "spacing": 5,
+  "margin-top": 2,
   "margin-bottom" :5,
   "margin-right" :8,
   "margin-left" :8,
@@ -112,28 +113,33 @@
 
   // Click toggles a floating btop/nvtop. The ^ anchor keeps pkill from
   // matching the sh -c that waybar wraps the command in.
-  "cpu": {
-    "format": " {usage}%",
-    "interval": 2,
-    "states": { "warning": 80, "critical": 95 },
+  "custom/cpu": {
+    "exec": "~/.config/waybar/scripts/cpu-status.sh 2",
+    "return-type": "json",
+    "format": "{}",
     "on-click": "pkill -f '^kitty --class sysmon-cpu' || kitty --class sysmon-cpu -e btop",
   },
 
-  "temperature": {
-    "hwmon-path-abs": "/sys/devices/platform/coretemp.0/hwmon",
-    "input-filename": "temp1_input",
-    "critical-threshold": 85,
-    "format": " {temperatureC}°",
-    "interval": 2,
-    "tooltip": false,
+  "memory": {
+    "format": "󰍛 {used:0.1f}/{total:0.0f}G",
+    "interval": 5,
+    "states": { "warning": 80, "critical": 95 },
+    "tooltip-format": "RAM:  {used:0.1f} / {total:0.1f} GiB ({percentage}%)\nSwap: {swapUsed:0.1f} / {swapTotal:0.1f} GiB",
     "on-click": "pkill -f '^kitty --class sysmon-cpu' || kitty --class sysmon-cpu -e btop",
+  },
+
+  "custom/disk": {
+    "exec": "~/.config/waybar/scripts/disk-status.sh",
+    "return-type": "json",
+    "format": "{}",
+    "interval": 60,
   },
 
   "custom/gpu": {
     "exec": "~/.config/waybar/scripts/gpu-status.sh 2",
     "exec-if": "command -v nvidia-smi",
     "return-type": "json",
-    "format": "󰢮 {}",
+    "format": "{}",
     "on-click": "pkill -f '^kitty --class sysmon-gpu' || kitty --class sysmon-gpu -e nvtop",
   },
 
