@@ -1,0 +1,21 @@
+// Desktop: no battery, backlight or wifi.
+{
+  "modules-left": [
+    "cpu",
+    "temperature",
+    "custom/gpu",
+    "custom/paddc",
+    "hyprland/window",
+    "custom/paddc",
+    "tray",
+  ],
+
+  "modules-right": [
+    "pulseaudio",
+    "hyprland/language",
+    "bluetooth",
+    "custom/notification",
+    "clock#date",
+    "clock#time",
+  ],
+}

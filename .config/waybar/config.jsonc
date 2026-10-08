@@ -2,39 +2,19 @@
   "layer": "top",
   "position": "top",
   "height": 35,
-  "width": 1500,
   "spacing": 5,
   "margin-bottom" :5,
   "margin-right" :8,
   "margin-left" :8,
 
-  "modules-left": [
-    "custom/rofi",
-    "hyprland/workspaces",
-    "custom/paddc",
-    "hyprland/window",
-    "custom/paddc",
-    "tray",
-  ],
+  "modules-center": ["custom/rofi", "hyprland/workspaces", "mpris"],
 
-  "modules-center": ["mpris"],
-
-  "modules-right": [
-    "pulseaudio",
-    "custom/backlight",
-    "hyprland/language",
-    "custom/paddc",
-    "bluetooth",
-    // "custom/paddc",
-    "battery",
-    "custom/paddc",
-    "custom/notification",
-    "custom/paddc",
-    "custom/wifi",
-    "custom/paddc",
-    "clock#date",
-    "custom/paddc",
-    "clock#time",
+  // Per-host modules-left/right. First match wins (waybar never overrides a
+  // key already set), so hosts/<hostname>.jsonc beats hosts/default.jsonc.
+  // Keep "modules-left"/"modules-right" out of this file or they override both.
+  "include": [
+    "~/.config/waybar/hosts/$(cat /etc/hostname).jsonc",
+    "~/.config/waybar/hosts/default.jsonc",
   ],
 
   "custom/rofi": {
@@ -130,6 +110,33 @@
     // "tooltip-format": "Standard Time: {:%I:%M %p}",
     "min-length": 8,
     "max-length": 12
+  },
+
+  // Click toggles a floating btop/nvtop. The ^ anchor keeps pkill from
+  // matching the sh -c that waybar wraps the command in.
+  "cpu": {
+    "format": " {usage}%",
+    "interval": 2,
+    "states": { "warning": 80, "critical": 95 },
+    "on-click": "pkill -f '^kitty --class sysmon-cpu' || kitty --class sysmon-cpu -e btop",
+  },
+
+  "temperature": {
+    "hwmon-path-abs": "/sys/devices/platform/coretemp.0/hwmon",
+    "input-filename": "temp1_input",
+    "critical-threshold": 85,
+    "format": " {temperatureC}°",
+    "interval": 2,
+    "tooltip": false,
+    "on-click": "pkill -f '^kitty --class sysmon-cpu' || kitty --class sysmon-cpu -e btop",
+  },
+
+  "custom/gpu": {
+    "exec": "~/.config/waybar/scripts/gpu-status.sh 2",
+    "exec-if": "command -v nvidia-smi",
+    "return-type": "json",
+    "format": "󰢮 {}",
+    "on-click": "pkill -f '^kitty --class sysmon-gpu' || kitty --class sysmon-gpu -e nvtop",
   },
 
   "custom/backlight": {
