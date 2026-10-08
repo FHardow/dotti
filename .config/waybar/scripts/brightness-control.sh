@@ -56,13 +56,13 @@ done
 # Determine the icon based on brightness level
 get_icon() {
   if ((brightness <= 5)); then
-    icon="󰃞 "
+    icon="󰃞"
   elif ((brightness <= 45)); then
-    icon="󰃝 "
+    icon="󰃝"
   elif ((brightness <= 75)); then
-    icon="󰃟 "
+    icon="󰃟"
   else
-    icon="󰃠 "
+    icon="󰃠"
   fi
 }
 

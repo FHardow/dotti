@@ -80,6 +80,15 @@ tooltip label {
   background: @hover;
 }
 
+/* Icon-only pills: same width regardless of glyph. */
+#custom-rofi,
+#custom-backlight,
+#bluetooth,
+#custom-notification,
+#language {
+  min-width: 18px;
+}
+
 /* Spacer modules stay invisible. */
 #custom-paddc {
   background: transparent;
