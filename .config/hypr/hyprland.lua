@@ -13,6 +13,22 @@ hl.monitor({
     scale    = "auto",
 })
 
+hl.monitor({
+    output    = "DP-1",
+    mode      = "3840x2160@95.03",
+    position  = "0x0",
+    scale     = 1.5,
+    transform = 0,
+})
+
+hl.monitor({
+    output    = "DP-2",
+    mode      = "3840x2160@60",
+    position  = "auto",
+    scale     = 1.5,
+    transform = 3,
+})
+
 
 ---------------------
 ---- MY PROGRAMS ----
@@ -32,7 +48,8 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("waybar")
     hl.exec_cmd("hyprpaper")
     hl.exec_cmd("firefox")
-    hl.exec_cmd("wlsunset -S 10:30 -s 16:00 -t 5000 -T 10000")
+    hl.exec_cmd("wlsunset -S 05:30 -s 17:40 -t 5000 -T 10000")
+    hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
 end)
 
 
@@ -43,6 +60,13 @@ end)
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
 hl.env("QT_QPA_PLATFORMTHEME", "qt6ct") -- for Qt apps
+hl.env("GDK_SCALE", "2")
+
+hl.config({
+    xwayland = {
+        force_zero_scaling = true,
+    },
+})
 
 
 -----------------------
@@ -55,7 +79,7 @@ local c = require("colors")
 hl.config({
     general = {
         gaps_in  = 2,
-        gaps_out = 3,
+        gaps_out = 4,
 
         border_size = 1,
 
@@ -71,7 +95,7 @@ hl.config({
     },
 
     decoration = {
-        rounding = 12,
+        rounding = 6,
 
         active_opacity   = c.win_opacity_active,
         inactive_opacity = c.win_opacity_inactive,
@@ -214,6 +238,10 @@ hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }))
+hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "left" }))
+hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "down" }))
+hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "up" }))
+hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "right" }))
 
 -- Switch workspaces with mainMod + [0-9], move window with mainMod + SHIFT + [0-9]
 for i = 1, 10 do

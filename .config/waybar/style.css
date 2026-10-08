@@ -19,7 +19,7 @@ window#waybar {
   background: @panel;
   color: @fg;
   border: 1px solid @border;
-  border-radius: 12px;
+  border-radius: 6px;
 }
 
 tooltip {
