@@ -3,11 +3,10 @@
 # Author: Jesse Mirabel (@sejjy)
 # GitHub: https://github.com/sejjy/mechabar
 
-# Rofi config
-config="$HOME/.config/rofi/config.rasi"
-
-# Rofi window override
-override_disabled="mainbox { children: [ listview ]; } listview { lines: 1; padding: 6px; }"
+# Wofi menu (styled by ~/.config/wofi/style.css)
+menu() {
+  wofi --dmenu --insensitive "$@"
+}
 
 get_device_icon() {
   local device_mac=$1
@@ -48,9 +47,9 @@ while true; do
   bluetooth_status=$(bluetoothctl show | grep "Powered:" | awk '{print $2}')
 
   if [[ "$bluetooth_status" == "yes" ]]; then
-    selected_option=$(echo -e "$options" | wofi -dmenu -i -selected-row 1 -config "${config}" -p " " || pkill -x rofi)
+    selected_option=$(echo -e "$options" | menu --prompt " ")
   else
-    selected_option=$(echo -e "$option" | wofi -dmenu -i -selected-row 1 -config "${config}" -theme-str "${override_disabled}" -p " " || pkill -x rofi)
+    selected_option=$(echo -e "$option" | menu --prompt " " --hide-search --lines 1)
   fi
 
   # Exit if no option is selected

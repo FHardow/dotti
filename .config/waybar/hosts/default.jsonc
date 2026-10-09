@@ -1,0 +1,23 @@
+// Laptop / fallback: battery, backlight and wifi.
+{
+  "modules-left": [
+    "custom/cpu",
+    "memory",
+    "custom/disk",
+    "custom/paddc",
+    "hyprland/window",
+    "custom/paddc",
+    "tray",
+  ],
+
+  "modules-right": [
+    "pulseaudio",
+    "custom/backlight",
+    "bluetooth",
+    "battery",
+    "custom/notification",
+    "custom/wifi",
+    "clock#date",
+    "clock#time",
+  ],
+}

@@ -2,43 +2,24 @@
   "layer": "top",
   "position": "top",
   "height": 35,
-  "width": 1500,
   "spacing": 5,
-  "margin-bottom" :5,
-  "margin-right" :8,
-  "margin-left" :8,
+  "margin-top": 4,
+  "margin-bottom": 0,
+  "margin-right": 4,
+  "margin-left": 4,
 
-  "modules-left": [
-    "custom/rofi",
-    "hyprland/workspaces",
-    "custom/paddc",
-    "hyprland/window",
-    "custom/paddc",
-    "tray",
-  ],
+  "modules-center": ["custom/rofi", "hyprland/workspaces", "mpris"],
 
-  "modules-center": ["mpris"],
-
-  "modules-right": [
-    "pulseaudio",
-    "custom/backlight",
-    "hyprland/language",
-    "custom/paddc",
-    "bluetooth",
-    // "custom/paddc",
-    "battery",
-    "custom/paddc",
-    "custom/notification",
-    "custom/paddc",
-    "custom/wifi",
-    "custom/paddc",
-    "clock#date",
-    "custom/paddc",
-    "clock#time",
+  // Per-host modules-left/right. First match wins (waybar never overrides a
+  // key already set), so hosts/<hostname>.jsonc beats hosts/default.jsonc.
+  // Keep "modules-left"/"modules-right" out of this file or they override both.
+  "include": [
+    "~/.config/waybar/hosts/$(cat /etc/hostname).jsonc",
+    "~/.config/waybar/hosts/default.jsonc",
   ],
 
   "custom/rofi": {
-		"format": "<span color='#fbf1c7' >󰮯</span>",
+		"format": "󰮯",
 		"on-click": "rofi -show drun",
     "on-click-right": "sh ~/.config/waybar/scripts/power-menu.sh",
     "escape" : true,
@@ -53,14 +34,14 @@
     "warp-on-scroll": false,
     "format": "{icon}",
     "format-icons": {
-      "1": "<span color='#cc241d' >󰊠</span>",
-      "2": "<span color='#98971a' >󰊠</span>",
-      "3": "<span color='#d79921' >󰊠</span>",
-      "4": "<span color='#458588' >󰊠</span>",
-      "5": "<span color='#b16286' >󰊠</span>",
-      "6": "<span color='#689d6a' >󰊠</span>",
-      "7": "<span color='#fe8019' >󰊠</span>",
-      "default": "<span color='#cc241d'>󰊠</span>",
+      "1": "󰊠",
+      "2": "󰊠",
+      "3": "󰊠",
+      "4": "󰊠",
+      "5": "󰊠",
+      "6": "󰊠",
+      "7": "󰊠",
+      "default": "󰊠"
     },
     "persistent-workspaces": {
         "*": 5
@@ -71,7 +52,7 @@
     "format": "{class}",
     "max-length": 20,
     "rewrite": {
-      "": "<span foreground= '#458588'></span> hyprland",
+      "": " hyprland",
       "~": " terminal",
       "com.mitchellh.ghostty": ">> ghostty",
       "zen-beta": ">> zen"
@@ -85,10 +66,10 @@
 
   "pulseaudio": {
     // "scroll-step": 1, // %, can be a float
-    "format": "<span color='#fbf1c7' >  </span>{volume}%",
-    "format-muted": "<span color='#fbf1c7' >  </span>{volume}%",
-    "format-bluetooth": "<span color='#fbf1c7' > 󰂰 </span>{volume}%",
-    "format-bluetooth-muted": "<span color='#fbf1c7' > 󰂲 </span>{volume}%",
+    "format": " {volume}%",
+    "format-muted": " {volume}%",
+    "format-bluetooth": "󰂰 {volume}%",
+    "format-bluetooth-muted": "󰂲 {volume}%",
     "format-source": "{volume}% ",
     "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
     "tooltip": false,
@@ -106,30 +87,60 @@
       "warning": 30,
       "critical": 20
     },
-    "format-icons": [" "," "," "," "," "],
-    "format": "<span color='#8ec07c' > {icon}</span>{capacity}%",
-    "format-critical": "<span color='#cc241d' > {icon}</span>{capacity}%",
-    "format-warning": "<span color='#d8a657' > {icon}</span>{capacity}%",
-    "format-full": "<span color='#8ec07c' > {icon}</span>{capacity}%",
-    "format-charging": "<span color='#8ec07c' > 󰂅 </span>{capacity}%",
-    "format-charging-warning": "<span color='#d8a657' > 󰢝 </span>{capacity}%",
-    "format-charging-critical": "<span color='#cc241d' > 󰢜 </span>{capacity}%",
-    "format-plugged": "<span color='#8ec07c' > 󰂅 </span>{capacity}%",
-    "format-alt": "<span color='#8ec07c' > 󱧥 </span>{time}",
+    "format-icons": ["","","","",""],
+    "format": "{icon} {capacity}%",
+    "format-critical": "{icon} {capacity}%",
+    "format-warning": "{icon} {capacity}%",
+    "format-full": "{icon} {capacity}%",
+    "format-charging": "󰂅 {capacity}%",
+    "format-charging-warning": "󰢝 {capacity}%",
+    "format-charging-critical": "󰢜 {capacity}%",
+    "format-plugged": "󰂅 {capacity}%",
+    "format-alt": "󱧥 {time}",
     "tooltip": false
   },
 
   "clock#date": {
-    "format": "<span color='#8ec07c' >󰃭 </span>{:%a %d %b}",
-    "tooltip": false,
+    "format": "󰃭 {:%a %d %b}",
+    "tooltip": false
   },
 
   "clock#time": {
-    "format": "<span color='#cc241d' >󱑂 </span>{:%I:%M %p}",
+    "format": "󱑂 {:%I:%M %p}",
     "tooltip": false,
-    // "tooltip-format": "Standard Time: {:%I:%M %p}",
-    "min-length": 8,
-    "max-length": 12
+    // "tooltip-format": "Standard Time: {:%I:%M %p}"
+  },
+
+  // Click toggles a floating btop/nvtop. The ^ anchor keeps pkill from
+  // matching the sh -c that waybar wraps the command in.
+  "custom/cpu": {
+    "exec": "~/.config/waybar/scripts/cpu-status.sh 2",
+    "return-type": "json",
+    "format": "{}",
+    "on-click": "pkill -f '^kitty --class sysmon-cpu' || kitty --class sysmon-cpu -e btop",
+  },
+
+  "memory": {
+    "format": "󰍛 {used:0.1f}/{total:0.0f}G",
+    "interval": 5,
+    "states": { "warning": 80, "critical": 95 },
+    "tooltip-format": "RAM:  {used:0.1f} / {total:0.1f} GiB ({percentage}%)\nSwap: {swapUsed:0.1f} / {swapTotal:0.1f} GiB",
+    "on-click": "pkill -f '^kitty --class sysmon-cpu' || kitty --class sysmon-cpu -e btop",
+  },
+
+  "custom/disk": {
+    "exec": "~/.config/waybar/scripts/disk-status.sh",
+    "return-type": "json",
+    "format": "{}",
+    "interval": 60,
+  },
+
+  "custom/gpu": {
+    "exec": "~/.config/waybar/scripts/gpu-status.sh 2",
+    "exec-if": "command -v nvidia-smi",
+    "return-type": "json",
+    "format": "{}",
+    "on-click": "pkill -f '^kitty --class sysmon-gpu' || kitty --class sysmon-gpu -e nvtop",
   },
 
   "custom/backlight": {
@@ -139,24 +150,22 @@
     "tooltip": true,
     "on-scroll-up": "~/.config/waybar/scripts/brightness-control.sh -o i",
     "on-scroll-down": "~/.config/waybar/scripts/brightness-control.sh -o d",
-    "interval": 1,
-    "min-length": 6,
-    "max-length": 6
+    "interval": 1
   },
 
   "custom/paddc": {
     "format": " ",
-    "tooltip": false,
+    "tooltip": false
   },
 
   "hyprland/language": {
     "format": "{}",
-    "format-en": "US",
+    "format-en": "US"
   },
 
   "mpris": {
-    "format": "<span color='#cc241d'> 󰎇  </span>  {artist} - {title}  ",
-    "max-length": 40,
+    "format": "󰎇 {artist} - {title}",
+    "max-length": 40
   },
 
   "custom/wifi": {
@@ -165,16 +174,14 @@
     "format": "{}",
     "tooltip": true,
     "on-click": "~/.config/waybar/scripts/wifi-menu.sh",
-    "interval": 1,
-    "min-length": 1,
-    "max-length": 12
+    "interval": 1
   },
 
   "bluetooth": {
-    "format": "<span color='#458588'>󰂰 </span>",
-    "format-disabled": "<span color='#458588'>󰂲 </span>",
-    "format-connected": "<span color='#458588'>󰂱 </span>",
-    "format-connected-battery": "<span color='#458588'>󰂱 </span>",
+    "format": "󰂰",
+    "format-disabled": "󰂲",
+    "format-connected": "󰂱",
+    "format-connected-battery": "󰂱",
 
     "tooltip-format": 
       "{num_connections} connected",
@@ -188,9 +195,7 @@
       "{device_alias}: {device_battery_percentage}%",
 
     "on-click": "~/.config/waybar/scripts/bluetooth-menu.sh",
-    "interval": 1,
-    "min-length": 1,
-    "max-length": 10
+    "interval": 1
   },
 
   "custom/notification": {
@@ -198,14 +203,14 @@
     "rotate": 0,
     "format": "{icon}",
     "format-icons": {
-      "notification": "󰅸 ",
-      "none": "󰂜 ",
-      "dnd-notification": "󰅸 ",
-      "dnd-none": "󱏨 ",
-      "inhibited-notification": "󰅸 ",
-      "inhibited-none": "󰂜 ",
-      "dnd-inhibited-notification": "󰅸 ",
-      "dnd-inhibited-none": "󱏨 "
+      "notification": "󰅸",
+      "none": "󰂜",
+      "dnd-notification": "󰅸",
+      "dnd-none": "󱏨",
+      "inhibited-notification": "󰅸",
+      "inhibited-none": "󰂜",
+      "dnd-inhibited-notification": "󰅸",
+      "dnd-inhibited-none": "󱏨"
     },
     "return-type": "json",
     "exec-if": "which swaync-client",

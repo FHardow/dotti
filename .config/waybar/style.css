@@ -1,263 +1,239 @@
-/* ================================ */
-/*            Common CSS            */
-/* ================================ */
+/* Glass theme — colors come from theme/palette.sh via `make theme`. */
+@import url("../theme/colors.css");
+
 * {
-  /* `otf-font-awesome` is required to be installed for icons */
   padding: 0;
-  border-radius: 0;
-  min-height: 0;
   margin: 0;
+  min-height: 0;
   border: none;
-  text-shadow: none;
-  transition: none;
+  border-radius: 0;
   box-shadow: none;
+  text-shadow: none;
+  font-family: "JetBrainsMono Nerd Font Propo";
+  font-size: 14px;
+  font-weight: 400;
 }
 
-/* the whole window */
+/* Bar: frosted panel; Hyprland blurs what's behind it (layer_rule). */
 window#waybar {
-  background: #3c3835;
-  color: #fff4d2;
-  padding: 0px 5px;
-  margin: 0;
-  border-radius: 15px;
+  background: @panel;
+  color: @fg;
+  border: 1px solid @border;
+  border-radius: 6px;
+}
+
+tooltip {
+  background: alpha(@bg, 0.85);
+  border: 1px solid @border;
+  border-radius: 10px;
+}
+
+tooltip label {
+  color: @fg;
+  padding: 4px 6px;
 }
 
 .modules-left {
-  padding-left: 5px;
+  padding-left: 6px;
 }
 
 .modules-right {
-  padding-right: 5px;
+  padding-right: 6px;
 }
 
+/* Pills: every module sits on a faint raised glass layer. */
 #custom-rofi,
-#workspaces button,
-#workspaces button:hover,
-#workspaces button.visible,
-#workspaces button.visible:hover,
-#workspaces button.active,
-#workspaces button.active:hover,
-#workspaces button.urgent,
+#workspaces,
 #window,
 #tray,
-#disk,
-#cpu,
-#temperature,
-#temperature.critical,
-#backlight,
-#custom-memory,
+#custom-cpu,
+#memory,
+#custom-disk,
+#custom-gpu,
 #pulseaudio,
-#pulseaudio.muted,
+#custom-backlight,
+#language,
+#bluetooth,
 #battery,
-#battery.critical,
-#battery.warning,
-#clock {
-  font-family: JetBrainsMono Nerd Font Propo;
-  font-size: 14px;
-  font-weight: 400;
-  color: #202020;
-  background: #202020;
-  border-radius: 2px;
+#custom-notification,
+#custom-wifi,
+#clock,
+#mpris {
+  color: @fg;
+  background: @surface;
+  border: 1px solid @border;
+  border-radius: 10px;
+  padding: 0 10px;
+  margin: 5px 0;
+  transition: background 150ms ease;
 }
 
-#window,
-#tray,
-#disk,
-#cpu,
-#temperature,
-#temperature.critical,
-#backlight,
-#custom-memory,
-#pulseaudio,
-#pulseaudio.muted,
-#battery,
-#battery.critical,
-#battery.warning,
-#clock {
-  padding-right: 4px;
-  margin: 5px 0px;
+#custom-rofi:hover,
+#custom-cpu:hover,
+#memory:hover,
+#custom-gpu:hover,
+#pulseaudio:hover,
+#custom-backlight:hover,
+#bluetooth:hover,
+#custom-notification:hover,
+#custom-wifi:hover,
+#mpris:hover {
+  background: @hover;
 }
 
+/* Icon-only pills: same width regardless of glyph. */
+#custom-rofi,
+#custom-backlight,
+#bluetooth,
+#custom-notification,
+#language {
+  min-width: 18px;
+}
+
+/* Spacer modules stay invisible. */
+#custom-paddc {
+  background: transparent;
+}
+
+/* Launcher */
 #custom-rofi {
-  /* border: 2px solid #458588; */
-  /* border-radius: 5px; */
-  background: #3c3835;
-  padding: 0 6px;
-  margin: 5px 0px;
+  color: @accent;
+  font-size: 16px;
 }
 
-/* ================================ */
-/*       workspaces module          */
-/* ================================ */
+/* Workspaces */
 #workspaces {
-  margin: 0px;
+  padding: 0 4px;
 }
 
 #workspaces button {
-  color: #fff4d2;
-  background: #3c3835;
-  /* border: 2px solid #fff4d2; */
-  min-width: 25px;
+  color: @fg-dim;
+  background: transparent;
+  border-radius: 8px;
+  min-width: 24px;
   padding: 0 4px;
-  margin: 5px 3px;
+  margin: 3px 1px;
+  transition: all 150ms ease;
 }
 
 #workspaces button:hover {
-  background: #3c3835;
-  border: 2px solid #b16286;
-  border-radius: 12px;
-}
-
-#workspaces button.visible {
-  border: 2px solid #689d6a;
-  border-radius: 12px;
-  background: #3c3835;
-}
-
-#workspaces button.visible:hover {
-  border: 2px solid #689d6a;
-  border-radius: 12px;
-  background: #3c3835;
+  color: @fg;
+  background: @hover;
 }
 
 #workspaces button.active {
-  border: 2px solid #689d6a;
-  border-radius: 12px;
-  background: #3c3835;
-}
-
-#workspaces button.active:hover {
-  border: 2px solid #689d6a;
-  border-radius: 12px;
-  background: #3c3835;
+  color: @accent;
+  background: alpha(@accent, 0.15);
 }
 
 #workspaces button.urgent {
-  border: 2px solid #cc241d;
-  border-radius: 12px;
-  background: #ea6962;
+  color: @red;
+  background: alpha(@red, 0.18);
 }
 
-/* ================================ */
-/*            window                 */
-/* ================================ */
-
+/* Window title */
 #window {
-  color: #a89884;
-  background: #3c3835;
-  /* border: 2px solid #d3869b; */
+  color: @fg-dim;
 }
 
-/* ================================ */
-/*            tray                 */
-/* ================================ */
-
-#tray {
-  /* padding: 0 6px; */
-  background: #3c3835;
+window#waybar.empty #window {
+  background: transparent;
+  border-color: transparent;
 }
 
-/* ================================ */
-/*            disk                 */
-/* ================================ */
-
-#disk {
-  color: #ea6962;
-  border: 2px solid #ea6962;
-}
-
-/* ================================ */
-/*            cpu                  */
-/* ================================ */
-#cpu {
-  color: #e78a4e;
-  border: 2px solid #e78a4e;
-}
-
-/* ================================ */
-/*            temp                  */
-/* ================================ */
-#temperature {
-  color: #d8a657;
-  border: 2px solid #d8a657;
-}
-
-#temperature.critical {
-  color: #cc241d;
-  border: 2px solid #cc241d;
-}
-
-/* ================================ */
-/*            backlight             */
-/* ================================ */
-#custom-backlight {
-  color: #f6c657;
-  background: #3c3835;
-}
-
-/* ================================ */
-/*            memory                */
-/* ================================ */
-#custom-memory {
-  color: #458588;
-  border: 2px solid #458588;
-}
-
-/* ================================ */
-/*         pulseaudio               */
-/* ================================ */
+/* Status modules: accent tint per module */
 #pulseaudio {
-  color: #fbf1c7;
-  background: #3c3835;
+  color: @blue;
 }
 
 #pulseaudio.muted {
-  color: #ea6962;
-  background: #3c3835;
+  color: @fg-dim;
 }
 
-/* ================================ */
-/*            battery               */
-/* ================================ */
+#custom-backlight {
+  color: @yellow;
+}
+
+#bluetooth {
+  color: @accent-alt;
+}
+
+#bluetooth.disabled,
+#bluetooth.off {
+  color: @fg-dim;
+}
+
 #battery {
-  color: #fbf1c7;
-  background: #3c3835;
+  color: @green;
 }
 
-#battery.critical {
-  color: #cc241d;
-  background: #3c3835;
+#battery.warning:not(.charging) {
+  color: @orange;
+  background: alpha(@orange, 0.12);
 }
 
-#battery.warning {
-  color: #e78a4e;
-  background: #3c3835;
-}
-/* ================================ */
-/*            clock                 */
-/* ================================ */
-#clock.time {
-  color: #fbf1c7;
-  background: #3c3835;
+#battery.critical:not(.charging) {
+  color: @red;
+  background: alpha(@red, 0.18);
 }
 
-#clock.date {
-  color: #fbf1c7;
-  background: #3c3835;
+#custom-cpu {
+  color: @blue;
 }
 
-#mpris {
-  color: #282828;
-  border: 2px solid #3c3835;
-  border-radius: 21px;
-  background: #fbf1c7;
-  padding: 5px 5px;
-  margin: 1px 1px; 
+#memory {
+  color: @purple;
+}
+
+#custom-disk {
+  color: @yellow;
+}
+
+#custom-gpu {
+  color: @green;
+}
+
+#custom-cpu.warning,
+#memory.warning,
+#custom-disk.warning,
+#custom-gpu.warning {
+  color: @orange;
+  background: alpha(@orange, 0.12);
+}
+
+#custom-cpu.critical,
+#memory.critical,
+#custom-disk.critical,
+#custom-gpu.critical {
+  color: @red;
+  background: alpha(@red, 0.18);
 }
 
 #custom-notification {
-  color: #fbf1c7;
-  font-size: 14px;
-  background: #3c3835;
-  padding: 2px 2px;
+  color: @fg;
+}
+
+#custom-wifi {
+  color: @cyan;
+}
+
+#clock.date {
+  color: @fg;
+}
+
+#clock.time {
+  color: @accent;
+}
+
+/* Media: slightly brighter glass so it reads as the focal point. */
+#mpris {
+  color: @fg;
+  background: @hover;
+  border-radius: 14px;
+  padding: 0 12px;
+}
+
+#mpris.paused {
+  color: @fg-dim;
+  background: @surface;
 }
