@@ -250,8 +250,13 @@ for i = 1, 10 do
     hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
 end
 
+-- Screenshot
+hl.bind(mainMod .. " + S", hl.dsp.exec_cmd('grim -g "$(slurp)" - | tee ~/Pictures/shot.png | wl-copy --type image/png'))
+
+-- Recording: launch OBS straight into recording (no-op if already running)
+hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("pgrep -x obs || obs --startrecording --minimize-to-tray"))
+
 -- Scratchpad
-hl.bind(mainMod .. " + S",         hl.dsp.workspace.toggle_special("magic"))
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
 
 -- Scroll through workspaces with mainMod + scroll
