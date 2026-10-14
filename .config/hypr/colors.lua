@@ -23,8 +23,8 @@ local M = {
     border_alpha  = 0.12,
     shadow_alpha  = 0.35,
 
-    win_opacity_active   = 0.96,
-    win_opacity_inactive = 0.88,
+    win_opacity_active   = 0.99,
+    win_opacity_inactive = 0.5,
 }
 
 -- Hyprland color string, e.g. M.rgba(M.accent, 0.9) -> "rgba(8fd6b5e6)"

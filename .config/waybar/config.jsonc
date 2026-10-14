@@ -8,7 +8,7 @@
   "margin-right": 4,
   "margin-left": 4,
 
-  "modules-center": ["custom/rofi", "hyprland/workspaces", "mpris"],
+  "modules-center": ["custom/rofi", "group/workspaces", "mpris"],
 
   // Per-host modules-left/right. First match wins (waybar never overrides a
   // key already set), so hosts/<hostname>.jsonc beats hosts/default.jsonc.
@@ -27,25 +27,101 @@
 	},
 
   // Modules configuration
-  "hyprland/workspaces": {
-    "disable-scroll": true,
-    "active-only": false,
-    "all-outputs": true,
-    "warp-on-scroll": false,
-    "format": "{icon}",
-    "format-icons": {
-      "1": "󰊠",
-      "2": "󰊠",
-      "3": "󰊠",
-      "4": "󰊠",
-      "5": "󰊠",
-      "6": "󰊠",
-      "7": "󰊠",
-      "default": "󰊠"
-    },
-    "persistent-workspaces": {
-        "*": 5
-    }
+  // Replaces hyprland/workspaces: its clicks send legacy "dispatch workspace N",
+  // which the Lua config rejects. scripts/workspaces.py tracks state and
+  // signals these modules (RTMIN+8); 1-5 always shown, 6-10 only while they exist.
+  "group/workspaces": {
+    "orientation": "inherit",
+    "modules": [
+      "custom/ws-listener",
+      "custom/ws#1",
+      "custom/ws#2",
+      "custom/ws#3",
+      "custom/ws#4",
+      "custom/ws#5",
+      "custom/ws#6",
+      "custom/ws#7",
+      "custom/ws#8",
+      "custom/ws#9",
+      "custom/ws#10",
+    ],
+  },
+
+  // Prints nothing (stays hidden); lives and dies with waybar.
+  "custom/ws-listener": {
+    "exec": "~/.config/waybar/scripts/workspaces.py",
+    "tooltip": false,
+  },
+
+  "custom/ws#1": {
+    "exec": "cat $XDG_RUNTIME_DIR/waybar-ws/1.json 2>/dev/null",
+    "return-type": "json",
+    "signal": 8,
+    "tooltip": false,
+    "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = 1 })'",
+  },
+  "custom/ws#2": {
+    "exec": "cat $XDG_RUNTIME_DIR/waybar-ws/2.json 2>/dev/null",
+    "return-type": "json",
+    "signal": 8,
+    "tooltip": false,
+    "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = 2 })'",
+  },
+  "custom/ws#3": {
+    "exec": "cat $XDG_RUNTIME_DIR/waybar-ws/3.json 2>/dev/null",
+    "return-type": "json",
+    "signal": 8,
+    "tooltip": false,
+    "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = 3 })'",
+  },
+  "custom/ws#4": {
+    "exec": "cat $XDG_RUNTIME_DIR/waybar-ws/4.json 2>/dev/null",
+    "return-type": "json",
+    "signal": 8,
+    "tooltip": false,
+    "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = 4 })'",
+  },
+  "custom/ws#5": {
+    "exec": "cat $XDG_RUNTIME_DIR/waybar-ws/5.json 2>/dev/null",
+    "return-type": "json",
+    "signal": 8,
+    "tooltip": false,
+    "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = 5 })'",
+  },
+  "custom/ws#6": {
+    "exec": "cat $XDG_RUNTIME_DIR/waybar-ws/6.json 2>/dev/null",
+    "return-type": "json",
+    "signal": 8,
+    "tooltip": false,
+    "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = 6 })'",
+  },
+  "custom/ws#7": {
+    "exec": "cat $XDG_RUNTIME_DIR/waybar-ws/7.json 2>/dev/null",
+    "return-type": "json",
+    "signal": 8,
+    "tooltip": false,
+    "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = 7 })'",
+  },
+  "custom/ws#8": {
+    "exec": "cat $XDG_RUNTIME_DIR/waybar-ws/8.json 2>/dev/null",
+    "return-type": "json",
+    "signal": 8,
+    "tooltip": false,
+    "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = 8 })'",
+  },
+  "custom/ws#9": {
+    "exec": "cat $XDG_RUNTIME_DIR/waybar-ws/9.json 2>/dev/null",
+    "return-type": "json",
+    "signal": 8,
+    "tooltip": false,
+    "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = 9 })'",
+  },
+  "custom/ws#10": {
+    "exec": "cat $XDG_RUNTIME_DIR/waybar-ws/10.json 2>/dev/null",
+    "return-type": "json",
+    "signal": 8,
+    "tooltip": false,
+    "on-click": "hyprctl dispatch 'hl.dsp.focus({ workspace = 10 })'",
   },
 
   "hyprland/window": {
