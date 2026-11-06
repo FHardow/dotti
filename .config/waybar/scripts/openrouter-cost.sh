@@ -34,6 +34,11 @@ RESPONSE=$(curl -sf --max-time 10 \
   -H "Authorization: Bearer $API_KEY" \
   https://openrouter.ai/api/v1/auth/key 2>/dev/null || true)
 
+# ---------- debug (set DEBUG=true) ----------
+if [[ "${DEBUG:-}" == "true" ]]; then
+  echo "$RESPONSE" >&2
+fi
+
 # ---------- parse & render ----------
 if [[ -z "$RESPONSE" ]]; then
   printf '{"text":" error","tooltip":"OpenRouter API unreachable","class":"warning"}\n'
