@@ -17,6 +17,7 @@
     "battery",
     "custom/notification",
     "custom/wifi",
+    "custom/openrouter-cost",
     "clock#date",
     "clock#time",
   ],
