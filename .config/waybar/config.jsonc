@@ -176,15 +176,9 @@
     "tooltip": false
   },
 
-  "clock#date": {
-    "format": "󰃭 {:%a %d %b}",
-    "tooltip": false
-  },
-
-  "clock#time": {
-    "format": "󱑂 {:%I:%M %p}",
+  "clock": {
+    "format": "󰃭 {:%a %d %b}  󱑂 {:%I:%M %p}",
     "tooltip": false,
-    // "tooltip-format": "Standard Time: {:%I:%M %p}"
   },
 
   // Click toggles a floating btop/nvtop. The ^ anchor keeps pkill from

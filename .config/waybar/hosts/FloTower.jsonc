@@ -16,7 +16,6 @@
     "bluetooth",
     "custom/notification",
     "custom/openrouter-cost",
-    "clock#date",
-    "clock#time",
+    "clock",
   ],
 }
