@@ -77,8 +77,7 @@ fi
 
 TOOLTIP="OpenRouter: \$$USAGE_FMT"
 [[ "$LIMIT_FMT" != "0.00" ]] && TOOLTIP+=" / \$$LIMIT_FMT limit"
-TOOLTIP+="
-API key: ${LABEL:-unknown}"
+TOOLTIP+="\\nAPI key: ${LABEL:-unknown}"
 
 JSON=$(printf '{"text":" $%s","tooltip":"%s","class":"%s"}\n' \
   "$USAGE_FMT" "$TOOLTIP" "$CLASS")
