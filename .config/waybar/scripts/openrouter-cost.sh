@@ -40,27 +40,33 @@ if [[ -z "$RESPONSE" ]]; then
   exit 0
 fi
 
-# Parse usage/limit from JSON using grep (no jq dependency).
-USAGE=$(echo "$RESPONSE" | grep -oE '"usage":[0-9.]+' | cut -d: -f2)
-LIMIT=$(echo "$RESPONSE" | grep -oE '"limit":[0-9.]+' | cut -d: -f2)
-LABEL=$(echo "$RESPONSE" | grep -oE '"label":"[^"]+"' | cut -d\" -f4)
+# Parse usage/limit from JSON using sed (no jq dependency).
+USAGE=$(echo "$RESPONSE" | sed -n 's/.*"usage"[[:space:]]*:[[:space:]]*\([0-9.]*\).*/\1/p' | tr -d '[:space:]')
+LIMIT=$(echo "$RESPONSE" | sed -n 's/.*"limit"[[:space:]]*:[[:space:]]*\([0-9.]*\).*/\1/p' | tr -d '[:space:]')
+LABEL=$(echo "$RESPONSE" | sed -n 's/.*"label"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
 
-# Defaults if fields missing
+# Defaults if fields missing or empty
 USAGE=${USAGE:-0}
 LIMIT=${LIMIT:-0}
 
-# Format dollar amounts
-USAGE_FMT=$(printf "%.2f" "$USAGE")
-LIMIT_FMT=$(printf "%.2f" "$LIMIT")
+# Sanitize: remove any non-numeric characters except dot
+USAGE=$(echo "$USAGE" | tr -cd '0-9.')
+LIMIT=$(echo "$LIMIT" | tr -cd '0-9.')
+
+# Format dollar amounts (force locale-independent decimal)
+USAGE_FMT=$(LC_ALL=C printf "%.2f" "$USAGE" 2>/dev/null || echo "0.00")
+LIMIT_FMT=$(LC_ALL=C printf "%.2f" "$LIMIT" 2>/dev/null || echo "0.00")
 
 # Pick a class based on usage threshold
 CLASS=""
-if (( $(echo "$LIMIT > 0" | bc -l) )); then
-  PCT=$(echo "scale=2; $USAGE * 100 / $LIMIT" | bc)
-  if (( $(echo "$PCT >= 80" | bc -l) )); then
-    CLASS="warning"
-  elif (( $(echo "$PCT >= 95" | bc -l) )); then
+# awk handles floating point, unlike bash
+HAS_LIMIT=$(awk -v l="$LIMIT" 'BEGIN{print (l>0) ? 1 : 0}' 2>/dev/null)
+if [[ "$HAS_LIMIT" == "1" ]]; then
+  PCT=$(awk -v u="$USAGE" -v l="$LIMIT" 'BEGIN{printf "%.0f", u*100/l}' 2>/dev/null)
+  if (( PCT >= 95 )); then
     CLASS="critical"
+  elif (( PCT >= 80 )); then
+    CLASS="warning"
   fi
 fi
 
