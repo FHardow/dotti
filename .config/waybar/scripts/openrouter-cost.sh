@@ -21,7 +21,7 @@ if [[ -f "$CACHE_FILE" ]]; then
     cat "$CACHE_FILE"
     exit 0
   fi
-done
+fi
 
 # ---------- API call ----------
 API_KEY="${OPENROUTER_API_KEY:-}"
