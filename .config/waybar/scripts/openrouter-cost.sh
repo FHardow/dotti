@@ -15,7 +15,7 @@ CACHE_TTL=300  # 5 minutes
 NOW=$(date +%s)
 
 # ---------- cache read ----------
-if [[ -f "$CACHE_FILE" ]]; then
+if [[ -f "$CACHE_FILE" ]] && [[ "${DEBUG:-}" != "true" ]]; then
   CACHE_AGE=$(( NOW - $(stat -c '%Y' "$CACHE_FILE" 2>/dev/null || echo 0) ))
   if (( CACHE_AGE < CACHE_TTL )); then
     cat "$CACHE_FILE"
