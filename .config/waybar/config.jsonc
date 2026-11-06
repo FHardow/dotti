@@ -274,6 +274,15 @@
     "interval": 1
   },
 
+  "custom/openrouter-cost": {
+    "exec": "~/.config/waybar/scripts/openrouter-cost.sh",
+    "return-type": "json",
+    "format": "{}",
+    "interval": 300,
+    "tooltip": true,
+    "on-click": "xdg-open https://openrouter.ai/activity"
+  },
+
   "custom/notification": {
     "tooltip": false,
     "rotate": 0,

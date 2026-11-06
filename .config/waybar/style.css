@@ -57,6 +57,7 @@ tooltip label {
 #battery,
 #custom-notification,
 #custom-wifi,
+#custom-openrouter-cost,
 #clock,
 #mpris {
   color: @fg;
@@ -77,6 +78,7 @@ tooltip label {
 #bluetooth:hover,
 #custom-notification:hover,
 #custom-wifi:hover,
+#custom-openrouter-cost:hover,
 #mpris:hover {
   background: @hover;
 }
@@ -187,6 +189,20 @@ window#waybar.empty #window {
 
 #custom-disk {
   color: @yellow;
+}
+
+#custom-openrouter-cost {
+  color: @accent-alt;
+}
+
+#custom-openrouter-cost.warning {
+  color: @orange;
+  background: alpha(@orange, 0.12);
+}
+
+#custom-openrouter-cost.critical {
+  color: @red;
+  background: alpha(@red, 0.18);
 }
 
 #custom-gpu {
