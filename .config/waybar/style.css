@@ -152,6 +152,20 @@ window#waybar.empty #window {
   color: @fg-dim;
 }
 
+/* mic pill: muted class follows the sink, so key off source-muted */
+#pulseaudio.mic {
+  color: @purple;
+}
+
+#pulseaudio.mic.muted {
+  color: @purple;
+}
+
+#pulseaudio.mic.source-muted {
+  color: @red;
+  background: alpha(@red, 0.12);
+}
+
 #custom-backlight {
   color: @yellow;
 }

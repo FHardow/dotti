@@ -12,6 +12,7 @@
 
   "modules-right": [
     "pulseaudio",
+    "pulseaudio#mic",
     "custom/backlight",
     "bluetooth",
     "battery",
