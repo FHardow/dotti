@@ -1,18 +1,22 @@
 #!/usr/bin/env bash
-# Show OpenRouter API spending in the waybar.
+# Show OpenRouter account-wide spending in the waybar.
 #
 # Reads OPENROUTER_API_KEY from the environment.
-# Caches the API response to /tmp/openrouter-cost.json for 5 min to avoid
-# hammering the API on every waybar poll.
+# Caches the rendered output to $XDG_RUNTIME_DIR/openrouter-cost.json for 5 min
+# to avoid hammering the API on every waybar poll.
+#
+# Pill shows total account spend (all keys, /api/v1/credits).
+# Tooltip adds credits, remaining balance and this key's own spend (/api/v1/auth/key).
 #
 # Returns JSON for waybar custom module:
-#   {"text": "$0.12", "tooltip": "OpenRouter: $0.12 / $10.00 limit", "class": ""}
+#   {"text": "󰚩 $1.51", "tooltip": "...", "class": ""}
 
 set -euo pipefail
 
 CACHE_FILE="${XDG_RUNTIME_DIR:-/tmp}/openrouter-cost.json"
 CACHE_TTL=300  # 5 minutes
 NOW=$(date +%s)
+ICON="󰚩"  # nf-md-robot
 
 # ---------- cache read ----------
 if [[ -f "$CACHE_FILE" ]] && [[ "${DEBUG:-}" != "true" ]]; then
@@ -23,51 +27,58 @@ if [[ -f "$CACHE_FILE" ]] && [[ "${DEBUG:-}" != "true" ]]; then
   fi
 fi
 
-# ---------- API call ----------
+# ---------- API calls ----------
 API_KEY="${OPENROUTER_API_KEY:-}"
 if [[ -z "$API_KEY" ]]; then
-  printf '{"text":" no key","tooltip":"OPENROUTER_API_KEY not set","class":"warning"}\n'
+  printf '{"text":"%s no key","tooltip":"OPENROUTER_API_KEY not set","class":"warning"}\n' "$ICON"
   exit 0
 fi
 
-RESPONSE=$(curl -sf --max-time 10 \
-  -H "Authorization: Bearer $API_KEY" \
-  https://openrouter.ai/api/v1/auth/key 2>/dev/null || true)
+fetch() {
+  curl -sf --max-time 10 -H "Authorization: Bearer $API_KEY" "$1" 2>/dev/null || true
+}
+
+CREDITS_RESPONSE=$(fetch https://openrouter.ai/api/v1/credits)
+KEY_RESPONSE=$(fetch https://openrouter.ai/api/v1/auth/key)
 
 # ---------- debug (set DEBUG=true) ----------
 if [[ "${DEBUG:-}" == "true" ]]; then
-  echo "$RESPONSE" >&2
+  echo "credits: $CREDITS_RESPONSE" >&2
+  echo "key:     $KEY_RESPONSE" >&2
 fi
 
 # ---------- parse & render ----------
-if [[ -z "$RESPONSE" ]]; then
-  printf '{"text":" error","tooltip":"OpenRouter API unreachable","class":"warning"}\n'
+if [[ -z "$CREDITS_RESPONSE" ]]; then
+  printf '{"text":"%s error","tooltip":"OpenRouter API unreachable","class":"warning"}\n' "$ICON"
   exit 0
 fi
 
-# Parse usage/limit from JSON using sed (no jq dependency).
-USAGE=$(echo "$RESPONSE" | sed -n 's/.*"usage"[[:space:]]*:[[:space:]]*\([0-9.]*\).*/\1/p' | tr -d '[:space:]')
-LIMIT=$(echo "$RESPONSE" | sed -n 's/.*"limit"[[:space:]]*:[[:space:]]*\([0-9.]*\).*/\1/p' | tr -d '[:space:]')
-LABEL=$(echo "$RESPONSE" | sed -n 's/.*"label"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
+# Extract a numeric JSON field (no jq dependency). Prints 0 if missing.
+num_field() {
+  local v
+  v=$(echo "$1" | sed -n "s/.*\"$2\"[[:space:]]*:[[:space:]]*\([0-9.]*\).*/\1/p" | tr -cd '0-9.')
+  echo "${v:-0}"
+}
 
-# Defaults if fields missing or empty
-USAGE=${USAGE:-0}
-LIMIT=${LIMIT:-0}
+money() { LC_ALL=C printf "%.2f" "$1" 2>/dev/null || echo "0.00"; }
 
-# Sanitize: remove any non-numeric characters except dot
-USAGE=$(echo "$USAGE" | tr -cd '0-9.')
-LIMIT=$(echo "$LIMIT" | tr -cd '0-9.')
+TOTAL_USAGE=$(num_field "$CREDITS_RESPONSE" total_usage)
+TOTAL_CREDITS=$(num_field "$CREDITS_RESPONSE" total_credits)
+KEY_USAGE=$(num_field "$KEY_RESPONSE" usage)
+LABEL=$(echo "$KEY_RESPONSE" | sed -n 's/.*"label"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
 
-# Format dollar amounts (force locale-independent decimal)
-USAGE_FMT=$(LC_ALL=C printf "%.2f" "$USAGE" 2>/dev/null || echo "0.00")
-LIMIT_FMT=$(LC_ALL=C printf "%.2f" "$LIMIT" 2>/dev/null || echo "0.00")
+REMAINING=$(awk -v c="$TOTAL_CREDITS" -v u="$TOTAL_USAGE" 'BEGIN{print c-u}')
 
-# Pick a class based on usage threshold
+USAGE_FMT=$(money "$TOTAL_USAGE")
+CREDITS_FMT=$(money "$TOTAL_CREDITS")
+REMAINING_FMT=$(money "$REMAINING")
+KEY_USAGE_FMT=$(money "$KEY_USAGE")
+
+# Pick a class based on share of purchased credits used
 CLASS=""
-# awk handles floating point, unlike bash
-HAS_LIMIT=$(awk -v l="$LIMIT" 'BEGIN{print (l>0) ? 1 : 0}' 2>/dev/null)
-if [[ "$HAS_LIMIT" == "1" ]]; then
-  PCT=$(awk -v u="$USAGE" -v l="$LIMIT" 'BEGIN{printf "%.0f", u*100/l}' 2>/dev/null)
+HAS_CREDITS=$(awk -v c="$TOTAL_CREDITS" 'BEGIN{print (c>0) ? 1 : 0}')
+if [[ "$HAS_CREDITS" == "1" ]]; then
+  PCT=$(awk -v u="$TOTAL_USAGE" -v c="$TOTAL_CREDITS" 'BEGIN{printf "%.0f", u*100/c}')
   if (( PCT >= 95 )); then
     CLASS="critical"
   elif (( PCT >= 80 )); then
@@ -75,12 +86,12 @@ if [[ "$HAS_LIMIT" == "1" ]]; then
   fi
 fi
 
-TOOLTIP="OpenRouter: \$$USAGE_FMT"
-[[ "$LIMIT_FMT" != "0.00" ]] && TOOLTIP+=" / \$$LIMIT_FMT limit"
-TOOLTIP+="\\nAPI key: ${LABEL:-unknown}"
+TOOLTIP="OpenRouter account: \$$USAGE_FMT / \$$CREDITS_FMT credits"
+TOOLTIP+="\\nRemaining: \$$REMAINING_FMT"
+[[ -n "$KEY_RESPONSE" ]] && TOOLTIP+="\\nThis key (${LABEL:-unknown}): \$$KEY_USAGE_FMT"
 
-JSON=$(printf '{"text":" $%s","tooltip":"%s","class":"%s"}\n' \
-  "$USAGE_FMT" "$TOOLTIP" "$CLASS")
+JSON=$(printf '{"text":"%s $%s","tooltip":"%s","class":"%s"}\n' \
+  "$ICON" "$USAGE_FMT" "$TOOLTIP" "$CLASS")
 
 # Write cache
 echo "$JSON" > "$CACHE_FILE"
